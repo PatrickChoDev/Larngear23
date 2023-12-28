@@ -1,12 +1,10 @@
 from langchain.document_loaders import WebBaseLoader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.llms.openai import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
-from langchain.agents import AgentType, initialize_agent, Tool,tool
-from langchain.tools import format_tool_to_openai_function
+from langchain.agents import AgentType, initialize_agent, Tool, tool
 from langchain.chains import RetrievalQA
 from PIL import Image, ImageDraw, ImageFont
 from langchain.vectorstores import Chroma
@@ -15,24 +13,23 @@ import os
 import chainlit as cl
 
 
-# text_splitter = CharacterTextSplitter(chunk_size=800, chunk_overlap=100)
+text_splitter = CharacterTextSplitter(chunk_size=800, chunk_overlap=100)
 
-# websites = [
-#     "https://www.cp.eng.chula.ac.th/about/faculty",
-#     "https://www.cp.eng.chula.ac.th/future/bachelor"
-# ]
+websites = [
+    "https://www.cp.eng.chula.ac.th/about/faculty",
+    "https://www.cp.eng.chula.ac.th/future/bachelor"
+]
 
 
-# # for website in websites:
-# loader = WebBaseLoader(websites)
-# loader.requests_kwargs  = {"verify":False}
-# data = loader.load()
-# texts = text_splitter.split_documents(data)
+# for website in websites:
+loader = WebBaseLoader(websites)
+loader.requests_kwargs  = {"verify":False}
+data = loader.load()
+texts = text_splitter.split_documents(data)
 
 embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 vectorstore = Chroma(persist_directory="./chroma_db", embedding_function=embeddings)
-# db = Chroma.from_documents(texts, embeddings,persist_directory="./chroma_db")
-# retriever = db.as_retriever(search_kwargs={"k":4})
+retriever = vectorstore.as_retriever(search_kwargs={"k":4})
 llm = OpenAI(temperature=0,streaming=True)
 
 @tool
@@ -77,11 +74,11 @@ def set_user_name(username) -> str:
     return f"Username set as {username}!"
 
 tools = [
-#   Tool(
-#     name="DocumentSearch",
-#     description="This tool can search and information. Useful for when you need to answer questions",
-#     func=RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever,return_source_documents=False).run
-#   ),
+  Tool(
+    name="DocumentSearch",
+    description="This tool can search and information. Useful for when you need to answer questions",
+    func=RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever,return_source_documents=False).run
+  ),
     create_poster,
     get_user_name,
     set_user_name
