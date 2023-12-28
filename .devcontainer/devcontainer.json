@@ -1,0 +1,24 @@
+{
+  "name": "RAG Chatbots",
+  "build": {
+    "context": "..",
+    "dockerfile": "./Dockerfile"
+  },
+  "runArgs": [
+    "--gpus",
+    "all"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "tamasfe.even-better-toml",
+        "christian-kohler.path-intellisense"
+      ]
+    }
+  },
+  "remoteUser": "1000"
+}
