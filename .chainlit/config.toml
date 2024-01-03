@@ -2,7 +2,7 @@
 enable_telemetry = false
 user_env = []
 session_timeout = 360000
-cache = false
+cache = true
 
 [features]
 prompt_playground = false
@@ -60,7 +60,6 @@ hide_cot = false
         #main = "#F80061"
         #dark = "#980039"
         #light = "#FFE7EB"
-
 
 [meta]
 generated_by = "0.7.400"

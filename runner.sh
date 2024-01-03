@@ -1,3 +1,2 @@
 #!/bin/bash
-
-chainlit run app.py -w
+$HOME/.local/bin/chainlit run app.py -w
