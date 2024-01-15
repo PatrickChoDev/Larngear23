@@ -58,7 +58,7 @@ tools = [
 async def start():
     memory = ConversationBufferMemory(memory_key="chat_history",return_messages=True)
     agent = initialize_agent(
-        tools, llm=ChatOpenAI(temperature=0.0,model="gpt-4-1106-preview"), agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,memory=memory,handle_parsing_errors=False,max_iterations=5
+        tools, llm=ChatOpenAI(temperature=0.0,model="gpt-3.5-turbo"), agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,memory=memory,handle_parsing_errors=False,max_iterations=5
     )
     return cl.user_session.set("agent",agent)
 
